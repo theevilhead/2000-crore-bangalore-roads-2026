@@ -57,10 +57,10 @@ export function CorroboratePrompt({
           </SheetDescription>
         </SheetHeader>
         <SheetFooter className="flex-row gap-2">
-          <Button size="lg" className="flex-1" disabled={confirming} onClick={onConfirm}>
+          <Button size="lg" className="h-12 flex-1 rounded-full font-semibold" disabled={confirming} onClick={onConfirm}>
             {confirming ? "Confirming…" : "Yes, confirm this"}
           </Button>
-          <Button size="lg" variant="outline" className="flex-1" onClick={onReportNew}>
+          <Button size="lg" variant="outline" className="h-12 flex-1 rounded-full" onClick={onReportNew}>
             It&apos;s different
           </Button>
         </SheetFooter>

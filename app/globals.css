@@ -7,9 +7,15 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-display: var(--font-bricolage);
+  --font-heading: var(--font-bricolage);
+  --color-hazard: var(--hazard);
+  --color-hazard-foreground: var(--hazard-foreground);
+  --color-sev-1: var(--sev-1);
+  --color-sev-2: var(--sev-2);
+  --color-sev-3: var(--sev-3);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,30 +55,37 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
+  /* Warm paper + ink: civic print, not SaaS white */
+  --background: oklch(0.972 0.008 83);
+  --foreground: oklch(0.23 0.013 64);
+  --card: oklch(0.992 0.005 85);
+  --card-foreground: oklch(0.23 0.013 64);
+  --popover: oklch(0.992 0.005 85);
+  --popover-foreground: oklch(0.23 0.013 64);
+  --primary: oklch(0.25 0.014 62);
+  --primary-foreground: oklch(0.975 0.008 85);
+  --secondary: oklch(0.93 0.012 84);
+  --secondary-foreground: oklch(0.27 0.014 62);
+  --muted: oklch(0.93 0.011 84);
+  --muted-foreground: oklch(0.52 0.014 66);
+  --accent: oklch(0.93 0.012 84);
+  --accent-foreground: oklch(0.27 0.014 62);
+  --destructive: oklch(0.57 0.21 28);
+  --border: oklch(0.88 0.012 80);
+  --input: oklch(0.88 0.012 80);
+  --ring: oklch(0.82 0.17 88);
+  /* Brand: road-hazard yellow/black + severity ramp */
+  --hazard: oklch(0.84 0.17 90);
+  --hazard-foreground: oklch(0.22 0.013 64);
+  --sev-1: oklch(0.77 0.142 75);
+  --sev-2: oklch(0.66 0.176 49);
+  --sev-3: oklch(0.56 0.205 28);
+  --chart-1: oklch(0.77 0.142 75);
+  --chart-2: oklch(0.66 0.176 49);
+  --chart-3: oklch(0.56 0.205 28);
+  --chart-4: oklch(0.439 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  --radius: 0.5rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -127,4 +140,24 @@
   html {
     @apply font-sans;
   }
+  h1, h2, h3 {
+    font-family: var(--font-bricolage), ui-sans-serif, sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility hazard-stripe {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--foreground) 0 10px,
+    var(--hazard) 10px 20px
+  );
+}
+
+/* Editorial small-caps label */
+@utility label-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  font-weight: 600;
 }

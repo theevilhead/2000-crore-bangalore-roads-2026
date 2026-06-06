@@ -40,44 +40,63 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
   const reports = report.corroborations + 1;
 
   return (
-    <main className="mx-auto flex w-full max-w-xl flex-col gap-5 p-5">
-      <div className="overflow-hidden rounded-xl border">
+    <main className="mx-auto flex w-full max-w-xl flex-col gap-6 px-5 py-8">
+      <Link href="/" className="label-caps w-fit text-muted-foreground hover:text-foreground">
+        Fix Bengaluru Roads
+      </Link>
+
+      <div className="relative overflow-hidden rounded-2xl border border-border shadow-sm">
         {img ? (
-          <Image src={img} alt="Reported road stretch" width={1200} height={630} className="h-auto w-full" unoptimized />
+          <Image src={img} alt="Reported road stretch" width={1200} height={630} className="h-auto w-full" unoptimized priority />
         ) : (
           <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
             Map preview needs a Mapbox token
           </div>
         )}
+        <span
+          className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold text-white shadow"
+          style={{ backgroundColor: meta.color }}
+        >
+          {meta.label} &middot; {formatLength(report.lengthM)}
+        </span>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
-          <span className="size-3 rounded-full" style={{ backgroundColor: meta.color }} />
-          <h1 className="text-lg font-semibold">
-            {meta.label} stretch · {formatLength(report.lengthM)}
-          </h1>
-        </div>
-        <p className="text-sm text-muted-foreground">{meta.help}</p>
-        <p className="text-sm">
-          {reports} {reports === 1 ? "report" : "reports"} on this stretch.
-        </p>
+      <div className="flex flex-col gap-3">
+        <h1 className="text-2xl font-extrabold tracking-tight">
+          A {meta.label.toLowerCase()} stretch, flagged by{" "}
+          <span className="tabular-nums">{reports}</span> {reports === 1 ? "person" : "people"}
+        </h1>
+        <p className="text-[0.95rem] leading-relaxed text-muted-foreground">{meta.help}</p>
         {report.damageTypes.length > 0 && (
-          <p className="text-sm text-muted-foreground">
-            {report.damageTypes.map((d) => DAMAGE_TYPE_LABELS[d]).join(" · ")}
-          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {report.damageTypes.map((d) => (
+              <span
+                key={d}
+                className="rounded-full border border-border bg-card px-2.5 py-1 text-xs font-medium"
+              >
+                {DAMAGE_TYPE_LABELS[d]}
+              </span>
+            ))}
+          </div>
         )}
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        <Button size="lg" render={<Link href="/" />}>
-          Open the map
-        </Button>
-      </div>
+      <Button
+        size="lg"
+        nativeButton={false}
+        className="h-12 w-fit rounded-full px-6 font-semibold"
+        render={<Link href="/" />}
+      >
+        Flag a road you know
+      </Button>
 
-      <p className="text-xs text-muted-foreground">
-        A citizen project to help Bengaluru&apos;s road relaying reach the worst stretches. Non-partisan, no logins.
-      </p>
+      <div className="mt-2 border-t border-border pt-4">
+        <span className="hazard-stripe block h-1.5 w-16 rounded-full" />
+        <p className="mt-3 max-w-md text-xs leading-relaxed text-muted-foreground">
+          A citizen project to help Bengaluru&apos;s road relaying reach the worst stretches.
+          Non-partisan, no logins.
+        </p>
+      </div>
     </main>
   );
 }

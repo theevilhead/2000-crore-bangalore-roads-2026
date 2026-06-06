@@ -16,7 +16,7 @@ import { SeveritySelect } from "./SeveritySelect";
 import { DamageTypeChips } from "./DamageTypeChips";
 import { ShareCard } from "./ShareCard";
 import type { SnapResult } from "@/lib/geo/snap";
-import type { DamageType, Severity } from "@/lib/types";
+import { SEVERITY_META, type DamageType, type Severity } from "@/lib/types";
 import { getSessionId } from "@/lib/session";
 import { formatLength } from "@/lib/format";
 
@@ -97,28 +97,37 @@ export function ReportSheet({
         ) : (
           <>
             <SheetHeader>
-              <SheetTitle>Describe this stretch</SheetTitle>
-              <SheetDescription>
-                {snapped ? `Snapped to road · ${formatLength(snapped.lengthM)}` : ""}
-              </SheetDescription>
+              <SheetTitle className="text-xl">Describe this stretch</SheetTitle>
+              {snapped && (
+                <SheetDescription className="flex items-center gap-2">
+                  <span className="hazard-stripe inline-block h-2 w-6 rounded-sm" />
+                  Snapped to road &middot;{" "}
+                  <span className="font-semibold text-foreground tabular-nums">
+                    {formatLength(snapped.lengthM)}
+                  </span>
+                </SheetDescription>
+              )}
             </SheetHeader>
 
             <div className="flex flex-col gap-5 p-4 pt-0">
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">How bad is it?</label>
+                <label className="label-caps text-muted-foreground">How bad is it?</label>
                 <SeveritySelect value={severity} onChange={setSeverity} />
+                <p className="min-h-8 text-[0.8rem] leading-snug text-muted-foreground">
+                  {severity ? SEVERITY_META[severity].help : "Pick the worst level along the stretch."}
+                </p>
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">
-                  What&apos;s wrong? <span className="text-muted-foreground">(optional)</span>
+                <label className="label-caps text-muted-foreground">
+                  What&apos;s wrong? <span className="font-normal normal-case tracking-normal">— optional</span>
                 </label>
                 <DamageTypeChips value={damageTypes} onChange={setDamageTypes} />
               </div>
 
               <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium">
-                  Anything else? <span className="text-muted-foreground">(optional)</span>
+                <label className="label-caps text-muted-foreground">
+                  Anything else? <span className="font-normal normal-case tracking-normal">— optional</span>
                 </label>
                 <Textarea
                   value={note}
@@ -130,7 +139,12 @@ export function ReportSheet({
             </div>
 
             <SheetFooter>
-              <Button size="lg" disabled={!severity || submitting} onClick={submit}>
+              <Button
+                size="lg"
+                disabled={!severity || submitting}
+                onClick={submit}
+                className="h-12 w-full rounded-full text-[0.95rem] font-semibold"
+              >
                 {submitting ? "Submitting…" : "Submit report"}
               </Button>
             </SheetFooter>

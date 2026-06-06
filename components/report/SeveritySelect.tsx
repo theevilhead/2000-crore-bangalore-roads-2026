@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SEVERITY_META, type Severity } from "@/lib/types";
 
@@ -19,24 +18,35 @@ export function SeveritySelect({
         const meta = SEVERITY_META[s];
         const active = value === s;
         return (
-          <Button
+          <button
             key={s}
             type="button"
-            variant="outline"
-            size="lg"
             onClick={() => onChange(s)}
             aria-pressed={active}
             className={cn(
-              "flex h-auto flex-col items-start gap-0.5 py-2 text-left whitespace-normal",
-              active && "border-2"
+              "group flex flex-col items-start gap-1.5 rounded-lg border-2 p-3 text-left transition-all",
+              "focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+              active
+                ? "shadow-sm"
+                : "border-border bg-card hover:border-muted-foreground/40 hover:bg-muted/40"
             )}
-            style={active ? { borderColor: meta.color } : undefined}
+            style={
+              active
+                ? {
+                    borderColor: meta.color,
+                    backgroundColor: `color-mix(in oklch, ${meta.color} 12%, var(--card))`,
+                  }
+                : undefined
+            }
           >
-            <span className="flex items-center gap-1.5 font-semibold">
-              <span className="size-2.5 rounded-full" style={{ backgroundColor: meta.color }} />
-              {s}. {meta.label}
+            <span
+              className="font-display text-2xl font-extrabold leading-none tabular-nums"
+              style={{ color: active ? meta.color : "var(--muted-foreground)" }}
+            >
+              {s}
             </span>
-          </Button>
+            <span className="text-[0.8rem] font-semibold leading-tight">{meta.label}</span>
+          </button>
         );
       })}
     </div>

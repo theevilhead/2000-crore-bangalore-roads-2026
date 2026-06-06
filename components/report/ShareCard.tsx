@@ -33,8 +33,8 @@ export function ShareCard({
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="overflow-hidden rounded-lg border">
+    <div className="flex flex-col gap-4">
+      <div className="relative overflow-hidden rounded-xl border border-border">
         {img ? (
           <Image src={img} alt="Reported stretch" width={600} height={315} className="h-auto w-full" unoptimized />
         ) : (
@@ -42,27 +42,36 @@ export function ShareCard({
             Map preview needs a Mapbox token
           </div>
         )}
+        <span
+          className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold text-white shadow-sm"
+          style={{ backgroundColor: meta.color }}
+        >
+          {meta.label} &middot; {formatLength(lengthM)}
+        </span>
       </div>
-      <p className="text-sm">
-        Thanks - your report is on the map.{" "}
-        <span className="font-medium" style={{ color: meta.color }}>
-          {meta.label}
-        </span>{" "}
-        · {formatLength(lengthM)}
+
+      <p className="text-[0.95rem] leading-snug">
+        <span className="font-display font-bold">On the map.</span> Share it so your
+        neighbours can back it up — more reports push it up the list.
       </p>
-      <div className="flex flex-wrap gap-2">
+
+      <div className="flex flex-col gap-2">
         <Button
           size="lg"
+          nativeButton={false}
+          className="h-12 w-full rounded-full text-[0.95rem] font-semibold"
           render={<a href={whatsappShareUrl(shareText, url)} target="_blank" rel="noopener noreferrer" />}
         >
           Share on WhatsApp
         </Button>
-        <Button variant="outline" size="lg" onClick={copy}>
-          Copy link
-        </Button>
-        <Button variant="ghost" size="lg" onClick={onDone}>
-          Report another
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="lg" className="h-11 flex-1 rounded-full" onClick={copy}>
+            Copy link
+          </Button>
+          <Button variant="ghost" size="lg" className="h-11 flex-1 rounded-full" onClick={onDone}>
+            Report another
+          </Button>
+        </div>
       </div>
     </div>
   );
