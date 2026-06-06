@@ -115,6 +115,26 @@ as $$
   limit 10;
 $$;
 
+-- A single report as a properties object (for the share / detail page).
+create or replace function report_feature(p_id uuid)
+returns jsonb
+language sql
+stable
+set search_path = public
+as $$
+  select jsonb_build_object(
+    'id', r.id,
+    'geometry', st_asgeojson(r.geom)::jsonb,
+    'severity', r.severity,
+    'lengthM', r.length_m,
+    'damageTypes', r.damage_types,
+    'corroborations', (select count(*) from corroborations c where c.report_id = r.id),
+    'createdAt', r.created_at
+  )
+  from reports r
+  where r.id = p_id;
+$$;
+
 -- RLS: public read. All writes go through the server (service role) via the
 -- RPCs above, which bypass RLS. No anon write policy is granted.
 alter table reports enable row level security;

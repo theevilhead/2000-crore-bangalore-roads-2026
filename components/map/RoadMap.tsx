@@ -10,7 +10,6 @@ import { CorroboratePrompt, type NearbyMatch } from "@/components/report/Corrobo
 import { MapLegend } from "@/components/map/MapLegend";
 import { snapWaypoints, type SnapResult } from "@/lib/geo/snap";
 import { getSessionId } from "@/lib/session";
-import type { Severity } from "@/lib/types";
 
 type LngLat = [number, number];
 

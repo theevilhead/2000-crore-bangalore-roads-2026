@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fix Bengaluru Roads
 
-## Getting Started
+Citizen map to crowdsource bad road stretches in Bengaluru, so the Rs 2000 crore
+relaying work reaches the roads that need it most. Non-partisan, no logins.
 
-First, run the development server:
+Draw a stretch → it snaps to the real road network → auto-computes length → you
+tag severity → it lands on a live map where others can corroborate it → you get a
+WhatsApp-shareable card.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Next.js (App Router) + TypeScript
+- Tailwind CSS + shadcn/ui (Base UI) for all UI
+- Mapbox GL JS (map), Mapbox Directions (snapping), Mapbox Static Images (share/OG)
+- Supabase (Postgres + PostGIS): geometry storage + spatial corroboration RPCs
+- Vitest for tests
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Install deps:
+   ```bash
+   pnpm install
+   ```
 
-## Learn More
+2. Create `.env.local` from the example and fill it in:
+   ```bash
+   cp .env.local.example .env.local
+   ```
+   - `NEXT_PUBLIC_MAPBOX_TOKEN` - Mapbox public token. Restrict it by URL.
+   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+     `SUPABASE_SERVICE_ROLE_KEY` - from your Supabase project (Settings > API).
 
-To learn more about Next.js, take a look at the following resources:
+3. Apply the database schema. In Supabase Studio > SQL editor, run, in order:
+   - `supabase/migrations/0001_init.sql`
+   - `supabase/migrations/0002_wards.sql`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   (Or with the Supabase CLI: `supabase db push`.)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Run:
+   ```bash
+   pnpm dev      # http://localhost:3000
+   pnpm test     # unit tests
+   pnpm build    # production build + typecheck
+   ```
 
-## Deploy on Vercel
+## How it fits together
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `lib/geo/snap.ts` - snaps clicked waypoints to road centerlines (Directions API).
+- `supabase/migrations/0001_init.sql` - `reports`, `corroborations`, and RPCs:
+  - `create_report` - inserts from GeoJSON, computes authoritative length in PostGIS.
+  - `reports_geojson` - all reports as a FeatureCollection (with corroboration counts).
+  - `nearby_reports` - finds existing reports overlapping a candidate line.
+  - `report_feature` - one report, for the share page.
+- `app/api/reports/*` - create / list / confirm / near endpoints (server, service role).
+- `components/map/RoadMap.tsx` - the whole client loop (draw, snap, corroborate, submit).
+- `app/r/[id]/page.tsx` - share landing page with a rich Open Graph map preview.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+
+- Identity is an anonymous session id (`lib/session.ts`) for now. It is a seam:
+  swap the implementation for phone-OTP later without touching call sites.
+- Ward / constituency derivation (`0002_wards.sql`) is wired but inert until BBMP
+  ward boundaries are imported into the `wards` table (phase-2 instrumentation).
+- Severity is consequence-based: 1 Annoying, 2 Damaging, 3 Dangerous.
