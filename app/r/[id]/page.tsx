@@ -91,7 +91,7 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
       </Button>
 
       <div className="mt-2 border-t border-border pt-4">
-        <span className="hazard-stripe block h-1.5 w-16 rounded-full" />
+        <span className="block h-1.5 w-16 rounded-full bg-primary" />
         <p className="mt-3 max-w-md text-xs leading-relaxed text-muted-foreground">
           A citizen project to help Bengaluru&apos;s road relaying reach the worst stretches.
           Non-partisan, no logins.

@@ -159,7 +159,7 @@ export default function RoadMap() {
     mapboxgl.accessToken = TOKEN;
     const map = new mapboxgl.Map({
       container: containerRef.current,
-      style: "mapbox://styles/mapbox/light-v11",
+      style: "mapbox://styles/mapbox/streets-v12",
       center: [77.5946, 12.9716],
       zoom: 11,
       attributionControl: false,
@@ -169,29 +169,43 @@ export default function RoadMap() {
     mapRef.current = map;
 
     map.on("load", () => {
+      const widthExpr: mapboxgl.ExpressionSpecification = [
+        "interpolate",
+        ["linear"],
+        ["coalesce", ["get", "corroborations"], 0],
+        0, 4,
+        50, 12,
+      ];
+
       map.addSource("reports", { type: "geojson", data: EMPTY });
+      // White casing so the colored lines stay legible over the detailed street map.
+      map.addLayer({
+        id: "reports-casing",
+        type: "line",
+        source: "reports",
+        layout: { "line-cap": "round", "line-join": "round" },
+        paint: {
+          "line-color": "#ffffff",
+          "line-width": ["+", widthExpr, 3],
+          "line-opacity": 0.9,
+        },
+      });
       map.addLayer({
         id: "reports-line",
         type: "line",
         source: "reports",
         layout: { "line-cap": "round", "line-join": "round" },
         paint: {
-          "line-width": [
-            "interpolate",
-            ["linear"],
-            ["coalesce", ["get", "corroborations"], 0],
-            0, 3.5,
-            50, 12,
-          ],
+          "line-width": widthExpr,
           "line-color": [
             "match",
             ["get", "severity"],
-            1, "#E0A21A",
-            2, "#DD5C1B",
-            3, "#C42E3A",
-            "#9b938a",
+            1, "#f59e0b",
+            2, "#f97316",
+            3, "#dc2626",
+            "#9ca3af",
           ],
-          "line-opacity": 0.9,
+          "line-opacity": 1,
         },
       });
 
@@ -201,7 +215,7 @@ export default function RoadMap() {
         type: "line",
         source: "draft",
         layout: { "line-cap": "round", "line-join": "round" },
-        paint: { "line-color": "#26211c", "line-width": 4, "line-dasharray": [1.4, 1] },
+        paint: { "line-color": "#18181b", "line-width": 4, "line-dasharray": [1.4, 1] },
       });
 
       setReady(true);
@@ -212,7 +226,7 @@ export default function RoadMap() {
       if (modeRef.current !== "drawing") return;
       const lngLat: LngLat = [e.lngLat.lng, e.lngLat.lat];
       waypointsRef.current.push(lngLat);
-      const marker = new mapboxgl.Marker({ color: "#26211c", scale: 0.65 }).setLngLat(lngLat).addTo(map);
+      const marker = new mapboxgl.Marker({ color: "#18181b", scale: 0.65 }).setLngLat(lngLat).addTo(map);
       markersRef.current.push(marker);
       setPointCount(waypointsRef.current.length);
       updateDraftLine();
@@ -232,7 +246,7 @@ export default function RoadMap() {
       {/* Masthead */}
       <header className="pointer-events-none absolute inset-x-0 top-0 z-10 p-3 sm:p-4">
         <div className="pointer-events-auto inline-block overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm backdrop-blur">
-          <div className="hazard-stripe h-1.5" />
+          <div className="h-1.5 bg-primary" />
           <div className="px-4 py-2.5">
             <h1 className="font-display text-base font-extrabold leading-none tracking-tight sm:text-lg">
               Fix Bengaluru Roads

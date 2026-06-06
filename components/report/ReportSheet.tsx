@@ -100,7 +100,7 @@ export function ReportSheet({
               <SheetTitle className="text-xl">Describe this stretch</SheetTitle>
               {snapped && (
                 <SheetDescription className="flex items-center gap-2">
-                  <span className="hazard-stripe inline-block h-2 w-6 rounded-sm" />
+                  <span className="inline-block h-2 w-6 rounded-sm bg-primary" />
                   Snapped to road &middot;{" "}
                   <span className="font-semibold text-foreground tabular-nums">
                     {formatLength(snapped.lengthM)}

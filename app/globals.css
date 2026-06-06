@@ -11,8 +11,6 @@
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-bricolage);
   --font-heading: var(--font-bricolage);
-  --color-hazard: var(--hazard);
-  --color-hazard-foreground: var(--hazard-foreground);
   --color-sev-1: var(--sev-1);
   --color-sev-2: var(--sev-2);
   --color-sev-3: var(--sev-3);
@@ -55,34 +53,34 @@
 }
 
 :root {
-  /* Warm paper + ink: civic print, not SaaS white */
-  --background: oklch(0.972 0.008 83);
-  --foreground: oklch(0.23 0.013 64);
-  --card: oklch(0.992 0.005 85);
-  --card-foreground: oklch(0.23 0.013 64);
-  --popover: oklch(0.992 0.005 85);
-  --popover-foreground: oklch(0.23 0.013 64);
-  --primary: oklch(0.25 0.014 62);
-  --primary-foreground: oklch(0.975 0.008 85);
-  --secondary: oklch(0.93 0.012 84);
-  --secondary-foreground: oklch(0.27 0.014 62);
-  --muted: oklch(0.93 0.011 84);
-  --muted-foreground: oklch(0.52 0.014 66);
-  --accent: oklch(0.93 0.012 84);
-  --accent-foreground: oklch(0.27 0.014 62);
-  --destructive: oklch(0.57 0.21 28);
-  --border: oklch(0.88 0.012 80);
-  --input: oklch(0.88 0.012 80);
-  --ring: oklch(0.82 0.17 88);
-  /* Brand: road-hazard yellow/black + severity ramp */
-  --hazard: oklch(0.84 0.17 90);
-  --hazard-foreground: oklch(0.22 0.013 64);
-  --sev-1: oklch(0.77 0.142 75);
-  --sev-2: oklch(0.66 0.176 49);
-  --sev-3: oklch(0.56 0.205 28);
-  --chart-1: oklch(0.77 0.142 75);
-  --chart-2: oklch(0.66 0.176 49);
-  --chart-3: oklch(0.56 0.205 28);
+  /* Clean neutral base, Tailwind-lime accent */
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.21 0.006 285);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.006 285);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.006 285);
+  /* primary = lime-500 (#84cc16) with near-black text */
+  --primary: oklch(0.792 0.209 131);
+  --primary-foreground: oklch(0.27 0.07 132);
+  --secondary: oklch(0.967 0.001 286);
+  --secondary-foreground: oklch(0.21 0.006 285);
+  --muted: oklch(0.967 0.001 286);
+  --muted-foreground: oklch(0.552 0.014 286);
+  /* accent = lime-100 tint */
+  --accent: oklch(0.967 0.06 124);
+  --accent-foreground: oklch(0.3 0.09 132);
+  --destructive: oklch(0.577 0.245 27);
+  --border: oklch(0.92 0.004 286);
+  --input: oklch(0.92 0.004 286);
+  --ring: oklch(0.792 0.209 131);
+  /* severity ramp = Tailwind amber-500 / orange-500 / red-600 */
+  --sev-1: oklch(0.769 0.166 70);
+  --sev-2: oklch(0.705 0.213 47);
+  --sev-3: oklch(0.577 0.245 27);
+  --chart-1: oklch(0.769 0.166 70);
+  --chart-2: oklch(0.705 0.213 47);
+  --chart-3: oklch(0.577 0.245 27);
   --chart-4: oklch(0.439 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.5rem;
@@ -144,14 +142,6 @@
     font-family: var(--font-bricolage), ui-sans-serif, sans-serif;
     letter-spacing: -0.02em;
   }
-}
-
-@utility hazard-stripe {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    var(--foreground) 0 10px,
-    var(--hazard) 10px 20px
-  );
 }
 
 /* Editorial small-caps label */
