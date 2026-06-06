@@ -5,7 +5,8 @@ import { execSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 
 const SKIP_BINARY = /\.(ico|png|jpe?g|gif|webp|mp4|mov|woff2?|ttf|otf|pdf|zip)$/i;
-const DASHES = /[—–]/; // em dash, en dash
+// em dash U+2014, en dash U+2013 (built from char codes so this file stays clean)
+const DASHES = new RegExp("[" + String.fromCharCode(0x2014, 0x2013) + "]");
 
 const files = execSync("git ls-files", { encoding: "utf8" })
   .split("\n")
@@ -25,7 +26,7 @@ for (const file of files) {
 }
 
 if (offenders.length) {
-  console.error("Em/en dashes are not allowed. Use a hyphen \"-\" instead.\n");
+  console.error('Em/en dashes are not allowed. Use a hyphen "-" instead.\n');
   console.error(offenders.join("\n"));
   process.exit(1);
 }
