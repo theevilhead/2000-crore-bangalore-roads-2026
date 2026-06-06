@@ -1,75 +1,34 @@
 # Fix Bengaluru Roads
 
-Citizen map to crowdsource bad road stretches in Bengaluru, so the Rs 2000 crore
-relaying work reaches the roads that need it most. Non-partisan, no logins.
+A citizen map for Bengaluru's bad roads.
 
-Draw a stretch → it snaps to the real road network → auto-computes length → you
-tag severity → it lands on a live map where others can corroborate it → you get a
-WhatsApp-shareable card.
+Karnataka has committed Rs 2000 crore to relaying Bengaluru's roads. This project
+helps that money reach the roads that actually need it - by letting the people who
+drive and walk these roads every day map the bad stretches themselves.
 
-## Stack
+It is non-partisan and needs no login. The goal is simple: a clear, shared,
+public picture of where Bengaluru's roads are broken, and how badly.
 
-- Next.js (App Router) + TypeScript
-- Tailwind CSS + shadcn/ui (Base UI) for all UI
-- Mapbox GL JS (map), Mapbox Directions (snapping), Mapbox Static Images (share/OG)
-- Supabase (Postgres + PostGIS): geometry storage + spatial corroboration RPCs
-- Vitest for tests
+## How it works
 
-## Setup
+Instead of one more pothole-photo app, you map the **stretch**:
 
-1. Install deps:
-   ```bash
-   pnpm install
-   ```
+1. Trace a bad stretch on the map - it snaps to the real road.
+2. Tag how bad it is: Annoying, Damaging, or Dangerous.
+3. It joins a live map. When others hit the same stretch, they confirm yours
+   instead of adding noise - so the worst, most-reported roads rise to the top.
+4. Share it on WhatsApp so your neighbours can back it up.
 
-2. Create `.env.local` from the example and fill it in:
-   ```bash
-   cp .env.local.example .env.local
-   ```
-   - `NEXT_PUBLIC_MAPBOX_TOKEN` - Mapbox public token. Restrict it by URL.
-   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
-     `SUPABASE_SERVICE_ROLE_KEY` - from your Supabase project (Settings > API).
+## Where it's going
 
-3. Apply the database schema.
+- **Now:** build an honest, crowd-verified dataset of Bengaluru's worst stretches.
+- **Next:** hold the work accountable - compare what gets relaid against what
+  citizens flagged, and show the gap.
 
-   With the Supabase CLI (tracked migrations):
-   ```bash
-   supabase link --project-ref <your-project-ref>
-   supabase db push
-   ```
-   `<your-project-ref>` is in your project URL / Project Settings > General.
+## Contributing
 
-   Or, without the CLI, paste each file's contents into Supabase Studio > SQL
-   editor and run them in order:
-   - `supabase/migrations/20260607000100_init.sql`
-   - `supabase/migrations/20260607000200_wards.sql`
-
-4. Run:
-   ```bash
-   pnpm dev      # http://localhost:3000
-   pnpm test     # unit tests
-   pnpm build    # production build + typecheck
-   ```
-
-## How it fits together
-
-- `lib/geo/snap.ts` - snaps clicked waypoints to road centerlines (Directions API).
-- `supabase/migrations/0001_init.sql` - `reports`, `corroborations`, and RPCs:
-  - `create_report` - inserts from GeoJSON, computes authoritative length in PostGIS.
-  - `reports_geojson` - all reports as a FeatureCollection (with corroboration counts).
-  - `nearby_reports` - finds existing reports overlapping a candidate line.
-  - `report_feature` - one report, for the share page.
-- `app/api/reports/*` - create / list / confirm / near endpoints (server, service role).
-- `components/map/RoadMap.tsx` - the whole client loop (draw, snap, corroborate, submit).
-- `app/r/[id]/page.tsx` - share landing page with a rich Open Graph map preview.
-
-## Notes
-
-- Identity is an anonymous session id (`lib/session.ts`) for now. It is a seam:
-  swap the implementation for phone-OTP later without touching call sites.
-- Ward / constituency derivation (`0002_wards.sql`) is wired but inert until BBMP
-  ward boundaries are imported into the `wards` table (phase-2 instrumentation).
-- Severity is consequence-based: 1 Annoying, 2 Damaging, 3 Dangerous.
+Issues and pull requests are welcome. Setup and architecture live in
+[DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## License
 
