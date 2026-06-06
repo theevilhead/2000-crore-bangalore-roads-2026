@@ -62,3 +62,7 @@ WhatsApp-shareable card.
 - Ward / constituency derivation (`0002_wards.sql`) is wired but inert until BBMP
   ward boundaries are imported into the `wards` table (phase-2 instrumentation).
 - Severity is consequence-based: 1 Annoying, 2 Damaging, 3 Dangerous.
+
+## License
+
+MIT - see [LICENSE](LICENSE).
