@@ -223,7 +223,7 @@ export default function RoadMap() {
 
   return (
     <div className="relative h-dvh w-full overflow-hidden">
-      <div ref={containerRef} className="absolute inset-0" />
+      <div ref={containerRef} className="h-full w-full" />
 
       {/* Top bar */}
       <header className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-center p-3">
