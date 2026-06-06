@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ReportSheet } from "@/components/report/ReportSheet";
 import { CorroboratePrompt, type NearbyMatch } from "@/components/report/CorroboratePrompt";
 import { MapLegend } from "@/components/map/MapLegend";
+import { HowItWorks } from "@/components/onboarding/HowItWorks";
 import { snapWaypoints, type SnapResult } from "@/lib/geo/snap";
 import { getSessionId } from "@/lib/session";
 
@@ -33,6 +34,18 @@ export default function RoadMap() {
   const [corrOpen, setCorrOpen] = useState(false);
   const [match, setMatch] = useState<NearbyMatch | null>(null);
   const [confirming, setConfirming] = useState(false);
+  const [showIntro, setShowIntro] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && !localStorage.getItem("br_seen_intro")) {
+      setShowIntro(true);
+    }
+  }, []);
+
+  const closeIntro = useCallback(() => {
+    setShowIntro(false);
+    if (typeof window !== "undefined") localStorage.setItem("br_seen_intro", "1");
+  }, []);
 
   const setSource = useCallback((id: string, data: GeoJSON.GeoJSON) => {
     const src = mapRef.current?.getSource(id) as mapboxgl.GeoJSONSource | undefined;
@@ -259,9 +272,13 @@ export default function RoadMap() {
             <h1 className="font-display text-base font-extrabold leading-none tracking-tight sm:text-lg">
               Fix Bengaluru Roads
             </h1>
-            <p className="label-caps mt-1.5 text-muted-foreground">
-              Citizen road map &middot; non-partisan
-            </p>
+            <button
+              type="button"
+              onClick={() => setShowIntro(true)}
+              className="label-caps mt-1.5 text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
+            >
+              How it works
+            </button>
           </div>
         </div>
       </header>
@@ -300,6 +317,7 @@ export default function RoadMap() {
         )}
       </div>
 
+      <HowItWorks open={showIntro} onClose={closeIntro} />
       <ReportSheet open={sheetOpen} onOpenChange={setSheetOpen} snapped={snapped} onSubmitted={onSubmitted} />
       <CorroboratePrompt
         open={corrOpen}
