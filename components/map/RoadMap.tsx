@@ -166,6 +166,14 @@ export default function RoadMap() {
     });
     map.addControl(new mapboxgl.AttributionControl({ compact: true }), "bottom-right");
     map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "bottom-right");
+    map.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true },
+        trackUserLocation: true,
+        showUserHeading: true,
+      }),
+      "bottom-right"
+    );
     mapRef.current = map;
 
     map.on("load", () => {
