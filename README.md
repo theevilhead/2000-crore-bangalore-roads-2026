@@ -30,11 +30,19 @@ WhatsApp-shareable card.
    - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
      `SUPABASE_SERVICE_ROLE_KEY` - from your Supabase project (Settings > API).
 
-3. Apply the database schema. In Supabase Studio > SQL editor, run, in order:
-   - `supabase/migrations/0001_init.sql`
-   - `supabase/migrations/0002_wards.sql`
+3. Apply the database schema.
 
-   (Or with the Supabase CLI: `supabase db push`.)
+   With the Supabase CLI (tracked migrations):
+   ```bash
+   supabase link --project-ref <your-project-ref>
+   supabase db push
+   ```
+   `<your-project-ref>` is in your project URL / Project Settings > General.
+
+   Or, without the CLI, paste each file's contents into Supabase Studio > SQL
+   editor and run them in order:
+   - `supabase/migrations/20260607000100_init.sql`
+   - `supabase/migrations/20260607000200_wards.sql`
 
 4. Run:
    ```bash

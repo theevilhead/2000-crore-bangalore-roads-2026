@@ -1,0 +1,7 @@
+# Supabase CLI config. Minimal on purpose - run `supabase init` to regenerate the
+# full, version-matched file if your CLI needs more keys.
+project_id = "fix-bengaluru-roads"
+
+[db]
+# Postgres major version of your Supabase project (check Project Settings > Infrastructure).
+major_version = 15
