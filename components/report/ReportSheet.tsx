@@ -120,14 +120,14 @@ export function ReportSheet({
 
               <div className="flex flex-col gap-2">
                 <label className="label-caps text-muted-foreground">
-                  What&apos;s wrong? <span className="font-normal normal-case tracking-normal">— optional</span>
+                  What&apos;s wrong? <span className="font-normal normal-case tracking-normal">- optional</span>
                 </label>
                 <DamageTypeChips value={damageTypes} onChange={setDamageTypes} />
               </div>
 
               <div className="flex flex-col gap-2">
                 <label className="label-caps text-muted-foreground">
-                  Anything else? <span className="font-normal normal-case tracking-normal">— optional</span>
+                  Anything else? <span className="font-normal normal-case tracking-normal">- optional</span>
                 </label>
                 <Textarea
                   value={note}

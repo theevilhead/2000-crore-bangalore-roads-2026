@@ -52,7 +52,7 @@ export function ShareCard({
 
       <p className="text-[0.95rem] leading-snug">
         <span className="font-display font-bold">On the map.</span> Share it so your
-        neighbours can back it up — more reports push it up the list.
+        neighbours can back it up - more reports push it up the list.
       </p>
 
       <div className="flex flex-col gap-2">

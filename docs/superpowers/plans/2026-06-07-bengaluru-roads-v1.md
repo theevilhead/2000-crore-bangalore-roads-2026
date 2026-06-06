@@ -31,37 +31,37 @@ These are external-account steps Claude cannot do; the operator runs them. Build
 ## File Structure
 
 **App / routes**
-- `app/layout.tsx` — root layout, fonts, Tailwind, theme provider
-- `app/page.tsx` — main map screen (the whole v1 loop)
-- `app/r/[id]/page.tsx` — single-report detail (share landing page)
-- `app/r/[id]/opengraph-image.tsx` — dynamic OG image (static Mapbox map) for previews
-- `app/api/reports/route.ts` — `GET` (all reports as GeoJSON) + `POST` (create)
-- `app/api/reports/[id]/confirm/route.ts` — `POST` corroborate an existing report
+- `app/layout.tsx` - root layout, fonts, Tailwind, theme provider
+- `app/page.tsx` - main map screen (the whole v1 loop)
+- `app/r/[id]/page.tsx` - single-report detail (share landing page)
+- `app/r/[id]/opengraph-image.tsx` - dynamic OG image (static Mapbox map) for previews
+- `app/api/reports/route.ts` - `GET` (all reports as GeoJSON) + `POST` (create)
+- `app/api/reports/[id]/confirm/route.ts` - `POST` corroborate an existing report
 
 **Components (all shadcn/ui + Tailwind)**
-- `components/map/MapView.tsx` — Mapbox GL map container + layers
-- `components/map/DrawController.tsx` — waypoint capture + snapped-line preview
-- `components/map/ReportLayers.tsx` — renders existing reports as line layers colored by severity/corroboration
-- `components/report/ReportSheet.tsx` — shadcn `Sheet` holding the report form
-- `components/report/SeveritySelect.tsx` — 3-button consequence-based severity picker
-- `components/report/DamageTypeChips.tsx` — optional multi-select chips
-- `components/report/ShareCard.tsx` — post-submit shareable card + WhatsApp link
-- `components/report/CorroboratePrompt.tsx` — "N nearby reports — confirm?" UI
-- `components/ui/*` — shadcn primitives (button, sheet, badge, sonner, etc.)
+- `components/map/MapView.tsx` - Mapbox GL map container + layers
+- `components/map/DrawController.tsx` - waypoint capture + snapped-line preview
+- `components/map/ReportLayers.tsx` - renders existing reports as line layers colored by severity/corroboration
+- `components/report/ReportSheet.tsx` - shadcn `Sheet` holding the report form
+- `components/report/SeveritySelect.tsx` - 3-button consequence-based severity picker
+- `components/report/DamageTypeChips.tsx` - optional multi-select chips
+- `components/report/ShareCard.tsx` - post-submit shareable card + WhatsApp link
+- `components/report/CorroboratePrompt.tsx` - "N nearby reports - confirm?" UI
+- `components/ui/*` - shadcn primitives (button, sheet, badge, sonner, etc.)
 
 **Lib**
-- `lib/supabase/client.ts` — browser client (anon key)
-- `lib/supabase/server.ts` — server client (service role)
-- `lib/geo/snap.ts` — call Mapbox Directions, return snapped GeoJSON LineString + length_m
-- `lib/geo/staticMap.ts` — build a Mapbox Static Images URL for a LineString
-- `lib/session.ts` — get-or-create anon session UUID (pluggable auth seam)
-- `lib/share.ts` — build WhatsApp share URL + report URL
-- `lib/types.ts` — shared types (`Report`, `Severity`, `DamageType`, `NewReport`)
-- `lib/schema.ts` — Zod schemas for API input validation
+- `lib/supabase/client.ts` - browser client (anon key)
+- `lib/supabase/server.ts` - server client (service role)
+- `lib/geo/snap.ts` - call Mapbox Directions, return snapped GeoJSON LineString + length_m
+- `lib/geo/staticMap.ts` - build a Mapbox Static Images URL for a LineString
+- `lib/session.ts` - get-or-create anon session UUID (pluggable auth seam)
+- `lib/share.ts` - build WhatsApp share URL + report URL
+- `lib/types.ts` - shared types (`Report`, `Severity`, `DamageType`, `NewReport`)
+- `lib/schema.ts` - Zod schemas for API input validation
 
 **Database**
-- `supabase/migrations/0001_init.sql` — PostGIS, `reports`, `corroborations`, indexes, RPC
-- `supabase/migrations/0002_wards.sql` — `wards` table + `report_ward()` derivation (boundary data load is a follow-up task; column is nullable)
+- `supabase/migrations/0001_init.sql` - PostGIS, `reports`, `corroborations`, indexes, RPC
+- `supabase/migrations/0002_wards.sql` - `wards` table + `report_ward()` derivation (boundary data load is a follow-up task; column is nullable)
 
 **Config / tests**
 - `.env.local.example`, `vitest.config.ts`, `vitest.setup.ts`
@@ -574,7 +574,7 @@ create trigger trg_set_report_ward
 
 - [ ] **Step 3: Apply migrations**
 
-Run (against the Supabase project — operator may use the SQL editor or CLI):
+Run (against the Supabase project - operator may use the SQL editor or CLI):
 ```bash
 # Option A (CLI): supabase db push
 # Option B: paste each migration into Supabase Studio > SQL editor and run
@@ -821,7 +821,7 @@ git add app/api/reports && git commit -m "feat: corroborate endpoint"
 
 ---
 
-## Task 10: Map screen — render + existing reports
+## Task 10: Map screen - render + existing reports
 
 **Files:**
 - Create: `components/map/MapView.tsx`, `components/map/ReportLayers.tsx`
@@ -829,7 +829,7 @@ git add app/api/reports && git commit -m "feat: corroborate endpoint"
 
 > Map interactions are verified manually in the browser (Mapbox GL can't render in jsdom). Keep logic in tested lib funcs; keep components thin.
 
-- [ ] **Step 1: `MapView.tsx`** — mount Mapbox centered on Bengaluru (12.9716, 77.5946), expose map via callback.
+- [ ] **Step 1: `MapView.tsx`** - mount Mapbox centered on Bengaluru (12.9716, 77.5946), expose map via callback.
 
 ```tsx
 "use client";
@@ -856,7 +856,7 @@ export function MapView({ onReady }: { onReady: (m: mapboxgl.Map) => void }) {
 }
 ```
 
-- [ ] **Step 2: `ReportLayers.tsx`** — fetch `/api/reports`, add a `line` layer colored by severity, width by corroborations.
+- [ ] **Step 2: `ReportLayers.tsx`** - fetch `/api/reports`, add a `line` layer colored by severity, width by corroborations.
 
 ```tsx
 "use client";
@@ -905,7 +905,7 @@ git add app components && git commit -m "feat: map view + report layer"
 **Files:**
 - Create: `components/map/DrawController.tsx`
 
-- [ ] **Step 1: Implement** — on "Add a bad road" click, enter draw mode: each map click pushes a waypoint marker; "Done" calls `snapWaypoints` and shows the snapped preview line + computed length.
+- [ ] **Step 1: Implement** - on "Add a bad road" click, enter draw mode: each map click pushes a waypoint marker; "Done" calls `snapWaypoints` and shows the snapped preview line + computed length.
 
 Key behaviors:
 - Tapping the map appends a `[lng,lat]` waypoint and renders a pin.
@@ -915,7 +915,7 @@ Key behaviors:
 
 (Full component code written during implementation; depends on `MapView` map instance + `snapWaypoints`.)
 
-- [ ] **Step 2: Manual verify** — drop 2+ points along a road, Done snaps the line to the road and shows length in meters.
+- [ ] **Step 2: Manual verify** - drop 2+ points along a road, Done snaps the line to the road and shows length in meters.
 
 - [ ] **Step 3: Commit**
 
@@ -930,13 +930,13 @@ git add components/map/DrawController.tsx && git commit -m "feat: draw + snap fl
 **Files:**
 - Create: `components/report/ReportSheet.tsx`, `SeveritySelect.tsx`, `DamageTypeChips.tsx`
 
-- [ ] **Step 1: `SeveritySelect.tsx`** — three shadcn `ToggleGroup` buttons: 1 Annoying / 2 Damaging / 3 Dangerous, color-coded amber/orange/red.
+- [ ] **Step 1: `SeveritySelect.tsx`** - three shadcn `ToggleGroup` buttons: 1 Annoying / 2 Damaging / 3 Dangerous, color-coded amber/orange/red.
 
-- [ ] **Step 2: `DamageTypeChips.tsx`** — optional multi-select chips for the 5 damage types (shadcn `Badge`/`Toggle`).
+- [ ] **Step 2: `DamageTypeChips.tsx`** - optional multi-select chips for the 5 damage types (shadcn `Badge`/`Toggle`).
 
-- [ ] **Step 3: `ReportSheet.tsx`** — shadcn `Sheet` showing: computed length (read-only), required `SeveritySelect`, optional chips + `Textarea`. Submit `POST /api/reports` with `getSessionId()`; on success show `ShareCard` (Task 13) and refresh the report layer. Disable submit until severity chosen; `sonner` toast on error.
+- [ ] **Step 3: `ReportSheet.tsx`** - shadcn `Sheet` showing: computed length (read-only), required `SeveritySelect`, optional chips + `Textarea`. Submit `POST /api/reports` with `getSessionId()`; on success show `ShareCard` (Task 13) and refresh the report layer. Disable submit until severity chosen; `sonner` toast on error.
 
-- [ ] **Step 4: Manual verify** — full path: draw → snap → pick severity → submit → new line appears on the map.
+- [ ] **Step 4: Manual verify** - full path: draw → snap → pick severity → submit → new line appears on the map.
 
 - [ ] **Step 5: Commit**
 
@@ -955,7 +955,7 @@ git add components/report && git commit -m "feat: report submission sheet"
 - [ ] **Step 1:** After the user finishes drawing (before opening a fresh report sheet), call `nearby_reports` (via a small RPC endpoint or `/api/reports?near=...`). If overlap_ratio > 0.4 for any existing report, show `CorroboratePrompt`: "This stretch looks already flagged (N reports). Confirm it / Add a different part."
 - [ ] **Step 2:** "Confirm" → `POST /api/reports/[id]/confirm` with sessionId; toast the new count; refresh layer (line gets thicker). "It's different" → continue to a fresh `ReportSheet`.
 - [ ] **Step 3: Add the near-query endpoint** `app/api/reports/near/route.ts` calling `sb.rpc("nearby_reports", { candidate, buffer_m })`.
-- [ ] **Step 4: Manual verify** — draw over an existing reported stretch → prompt appears → confirm bumps the count + thickens the line.
+- [ ] **Step 4: Manual verify** - draw over an existing reported stretch → prompt appears → confirm bumps the count + thickens the line.
 - [ ] **Step 5: Commit**
 
 ```bash
@@ -969,7 +969,7 @@ git add app components && git commit -m "feat: corroboration prompt"
 **Files:**
 - Create: `components/report/ShareCard.tsx`, `lib/share.ts`, `lib/geo/staticMap.ts`, `app/r/[id]/page.tsx`, `app/r/[id]/opengraph-image.tsx`
 
-- [ ] **Step 1: `lib/geo/staticMap.ts`** — build a Mapbox Static Images URL overlaying the report's GeoJSON line.
+- [ ] **Step 1: `lib/geo/staticMap.ts`** - build a Mapbox Static Images URL overlaying the report's GeoJSON line.
 
 ```ts
 export function staticMapUrl(geojson: GeoJSON.LineString, token: string, w = 1200, h = 630) {
@@ -980,15 +980,15 @@ export function staticMapUrl(geojson: GeoJSON.LineString, token: string, w = 120
 }
 ```
 
-- [ ] **Step 2: `lib/share.ts`** — `reportUrl(id)` and `whatsappShareUrl(text, url)` (`https://wa.me/?text=...`).
+- [ ] **Step 2: `lib/share.ts`** - `reportUrl(id)` and `whatsappShareUrl(text, url)` (`https://wa.me/?text=...`).
 
-- [ ] **Step 3: `app/r/[id]/page.tsx`** — server-fetch the report, show static map + severity + length + a "Report another / Open the map" CTA.
+- [ ] **Step 3: `app/r/[id]/page.tsx`** - server-fetch the report, show static map + severity + length + a "Report another / Open the map" CTA.
 
-- [ ] **Step 4: `app/r/[id]/opengraph-image.tsx`** — return the static map image so WhatsApp/Twitter render a rich preview.
+- [ ] **Step 4: `app/r/[id]/opengraph-image.tsx`** - return the static map image so WhatsApp/Twitter render a rich preview.
 
-- [ ] **Step 5: `ShareCard.tsx`** — after submit, show the static map thumbnail + a WhatsApp share button (deep link) + copy-link.
+- [ ] **Step 5: `ShareCard.tsx`** - after submit, show the static map thumbnail + a WhatsApp share button (deep link) + copy-link.
 
-- [ ] **Step 6: Manual verify** — submit, open the share link, confirm the OG preview renders the map (test with WhatsApp/Twitter card validator).
+- [ ] **Step 6: Manual verify** - submit, open the share link, confirm the OG preview renders the map (test with WhatsApp/Twitter card validator).
 
 - [ ] **Step 7: Commit**
 
@@ -1029,5 +1029,5 @@ git add app components && git commit -m "feat: landing chrome + responsive polis
 ## Self-Review
 
 - **Spec coverage:** draw (T11) → snap (T5, T11) → length (T4, T8) → severity (T12) → corroboration (T6, T13) → live heatmap/line layer (T10) → WhatsApp share (T14). Anon session/auth seam (T2). Ward instrumentation (T6). Non-partisan framing (T15). All v1 spec items mapped.
-- **Open dependency:** geometry insert from supabase-js needs the `create_report` RPC (flagged in Task 8 Step 3b) — implement the RPC form, not raw `.insert`, and adjust the Task 8 test mock to spy on `rpc`.
+- **Open dependency:** geometry insert from supabase-js needs the `create_report` RPC (flagged in Task 8 Step 3b) - implement the RPC form, not raw `.insert`, and adjust the Task 8 test mock to spy on `rpc`.
 - **Mapbox vs MapLibre:** v1 uses Mapbox GL JS for one-vendor simplicity within the free tier; stored geometry is ours, so OSM/MapLibre swap stays open. No lock-in on the data.

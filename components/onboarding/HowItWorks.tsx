@@ -13,7 +13,7 @@ const STEPS = [
   {
     icon: Gauge,
     title: "Rate it",
-    body: "Mark how bad it is — Annoying, Damaging, or Dangerous.",
+    body: "Mark how bad it is - Annoying, Damaging, or Dangerous.",
   },
   {
     icon: Share2,
