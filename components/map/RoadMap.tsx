@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ReportSheet } from "@/components/report/ReportSheet";
 import { CorroboratePrompt, type NearbyMatch } from "@/components/report/CorroboratePrompt";
 import { MapLegend } from "@/components/map/MapLegend";
+import { SearchBar } from "@/components/map/SearchBar";
 import { HowItWorks } from "@/components/onboarding/HowItWorks";
 import { snapWaypoints, type SnapResult } from "@/lib/geo/snap";
 import { getSessionId } from "@/lib/session";
@@ -163,6 +164,10 @@ export default function RoadMap({ initialData }: { initialData: GeoJSON.FeatureC
     setSheetOpen(true);
   }, []);
 
+  const onSearchSelect = useCallback((center: [number, number]) => {
+    mapRef.current?.flyTo({ center, zoom: 15, duration: 1200, essential: true });
+  }, []);
+
   const onSubmitted = useCallback(async () => {
     await refreshReports();
     clearDraftArtifacts();
@@ -301,6 +306,13 @@ export default function RoadMap({ initialData }: { initialData: GeoJSON.FeatureC
           </button>
         </div>
       </header>
+
+      {/* Place search */}
+      <div className="pointer-events-none absolute inset-x-0 top-20 z-20 flex justify-center px-3 lg:top-4">
+        <div className="pointer-events-auto w-full max-w-md">
+          <SearchBar onSelect={onSearchSelect} />
+        </div>
+      </div>
 
       <MapLegend />
 
