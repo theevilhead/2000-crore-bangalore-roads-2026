@@ -103,14 +103,16 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
         <span className="block h-1.5 w-16 rounded-full bg-primary" />
         <p className="mt-3 max-w-md text-xs leading-relaxed text-muted-foreground">
           A citizen project to help Bengaluru&apos;s road relaying reach the worst stretches.
-          Non-partisan, no logins.
+          Open to everyone, no login needed.
         </p>
-        <Link
-          href="/privacy"
-          className="mt-2 inline-block text-xs font-medium text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
-        >
-          Your data &amp; privacy
-        </Link>
+        <div className="mt-2 flex gap-4 text-xs font-medium text-muted-foreground">
+          <Link href="/about" className="underline-offset-2 hover:text-foreground hover:underline">
+            About
+          </Link>
+          <Link href="/privacy" className="underline-offset-2 hover:text-foreground hover:underline">
+            Your data &amp; privacy
+          </Link>
+        </div>
       </div>
     </main>
   );

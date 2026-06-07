@@ -75,7 +75,11 @@ export function HowItWorks({ open, onClose }: { open: boolean; onClose: () => vo
             Start mapping
           </Button>
           <p className="text-center text-xs text-muted-foreground">
-            No login. Non-partisan.{" "}
+            No login needed.{" "}
+            <Link href="/about" className="font-medium underline underline-offset-2 hover:text-foreground">
+              About
+            </Link>{" "}
+            &middot;{" "}
             <Link href="/privacy" className="font-medium underline underline-offset-2 hover:text-foreground">
               What we store
             </Link>

@@ -282,7 +282,7 @@ export default function RoadMap({ initialData }: { initialData: GeoJSON.FeatureC
               Fix Bengaluru Roads
             </h1>
             <p className="label-caps mt-1.5 text-muted-foreground">
-              Citizen road map &middot; non-partisan
+              Citizen road map for Bengaluru
             </p>
           </div>
         </div>

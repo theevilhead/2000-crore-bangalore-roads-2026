@@ -137,11 +137,16 @@ export default async function DashboardPage() {
       <div className="flex flex-col gap-2 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
         <p>
           A citizen project to help Bengaluru&apos;s road relaying reach the worst stretches.
-          Non-partisan, no logins.
+          Open to everyone, no login needed.
         </p>
-        <Link href="/privacy" className="w-fit font-medium underline-offset-2 hover:text-foreground hover:underline">
-          Your data &amp; privacy
-        </Link>
+        <div className="flex gap-4">
+          <Link href="/about" className="font-medium underline-offset-2 hover:text-foreground hover:underline">
+            About
+          </Link>
+          <Link href="/privacy" className="font-medium underline-offset-2 hover:text-foreground hover:underline">
+            Your data &amp; privacy
+          </Link>
+        </div>
       </div>
     </main>
   );

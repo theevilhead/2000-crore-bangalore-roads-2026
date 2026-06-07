@@ -6,7 +6,7 @@ Karnataka has committed Rs 2000 crore to relaying Bengaluru's roads. This projec
 helps that money reach the roads that actually need it - by letting the people who
 drive and walk these roads every day map the bad stretches themselves.
 
-It is non-partisan and needs no login. The goal is simple: a clear, shared,
+It needs no login and is open to everyone. The goal is simple: a clear, shared,
 public picture of where Bengaluru's roads are broken, and how badly.
 
 ## How it works

@@ -106,7 +106,7 @@ export default function PrivacyPage() {
         <p>
           This is an early version and will change. For example, we may later add phone verification to
           strengthen trust; if we do, a phone number would be stored in a hashed form, and this page
-          will be updated to say so. This project is non-partisan and run in the public interest.
+          will be updated to say so. This project is run in the public interest.
         </p>
       </Section>
 
