@@ -1,8 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "@/components/ui/sonner";
 import { RegisterSW } from "@/components/pwa/RegisterSW";
+
+// GA runs in production only (keeps dev/local traffic out of analytics), and only
+// when NEXT_PUBLIC_GA_ID is configured.
+const GA_ID =
+  process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_GA_ID : undefined;
 
 // Single clean, institutional sans for the whole app (display + body).
 const sans = Plus_Jakarta_Sans({
@@ -58,6 +64,7 @@ export default function RootLayout({
         <Toaster position="top-center" />
         <RegisterSW />
       </body>
+      {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
     </html>
   );
 }

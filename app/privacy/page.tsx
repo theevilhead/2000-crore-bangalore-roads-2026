@@ -66,7 +66,7 @@ export default function PrivacyPage() {
       <Section title="What we do not collect">
         <ul className="list-disc space-y-1.5 pl-5">
           <li>No accounts or passwords.</li>
-          <li>No advertising or tracking cookies, and no analytics profiles of you.</li>
+          <li>No advertising, and we do not sell your data. (We do use Google Analytics for aggregate usage; see below.)</li>
           <li>No photos in this version. If photos are added later, we plan to blur faces and number plates.</li>
         </ul>
       </Section>
@@ -84,6 +84,13 @@ export default function PrivacyPage() {
           </li>
           <li>
             <strong>Vercel</strong> hosts the app.
+          </li>
+          <li>
+            <strong>Google Analytics</strong> measures aggregate usage (such as which pages are
+            visited and rough device / location) so we can understand how the site is used and improve
+            it. It sets cookies. We use it for aggregate insight, not to identify you, and we do not run
+            ads. You can opt out with Google&apos;s browser add-on or your browser&apos;s cookie
+            controls. (Only active where the site owner has enabled it.)
           </li>
         </ul>
         <p className="mt-2">
