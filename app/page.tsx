@@ -1,17 +1,9 @@
-"use client";
+import { MapApp } from "@/components/map/MapApp";
+import { getReportsGeoJSON } from "@/lib/reports-data";
 
-import dynamic from "next/dynamic";
+export const dynamic = "force-dynamic";
 
-// Mapbox GL touches `window`, so load the map client-side only.
-const RoadMap = dynamic(() => import("@/components/map/RoadMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex h-dvh w-full items-center justify-center text-sm text-muted-foreground">
-      Loading map…
-    </div>
-  ),
-});
-
-export default function Home() {
-  return <RoadMap />;
+export default async function Home() {
+  const initialData = await getReportsGeoJSON();
+  return <MapApp initialData={initialData} />;
 }

@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { toast } from "sonner";
-import { Plus, HelpCircle } from "lucide-react";
+import Link from "next/link";
+import { Plus, HelpCircle, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ReportSheet } from "@/components/report/ReportSheet";
 import { CorroboratePrompt, type NearbyMatch } from "@/components/report/CorroboratePrompt";
@@ -12,6 +13,7 @@ import { MapLegend } from "@/components/map/MapLegend";
 import { HowItWorks } from "@/components/onboarding/HowItWorks";
 import { snapWaypoints, type SnapResult } from "@/lib/geo/snap";
 import { getSessionId } from "@/lib/session";
+import { fetchReports } from "@/app/actions";
 
 type LngLat = [number, number];
 
@@ -19,7 +21,7 @@ const TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? "";
 const EMPTY: GeoJSON.FeatureCollection = { type: "FeatureCollection", features: [] };
 const OVERLAP_THRESHOLD = 0.4;
 
-export default function RoadMap() {
+export default function RoadMap({ initialData }: { initialData: GeoJSON.FeatureCollection }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
@@ -54,7 +56,7 @@ export default function RoadMap() {
 
   const refreshReports = useCallback(async () => {
     try {
-      const fc = await fetch("/api/reports").then((r) => (r.ok ? r.json() : EMPTY));
+      const fc = await fetchReports();
       setSource("reports", fc?.type ? fc : EMPTY);
     } catch {
       setSource("reports", EMPTY);
@@ -198,7 +200,7 @@ export default function RoadMap() {
         50, 12,
       ];
 
-      map.addSource("reports", { type: "geojson", data: EMPTY });
+      map.addSource("reports", { type: "geojson", data: initialData ?? EMPTY });
       // White casing so the colored lines stay legible over the detailed street map.
       map.addLayer({
         id: "reports-casing",
@@ -240,7 +242,6 @@ export default function RoadMap() {
       });
 
       setReady(true);
-      void refreshReports();
     });
 
     const onClick = (e: mapboxgl.MapMouseEvent) => {
@@ -258,7 +259,7 @@ export default function RoadMap() {
       map.remove();
       mapRef.current = null;
     };
-  }, [refreshReports, updateDraftLine]);
+  }, [refreshReports, updateDraftLine, initialData]);
 
   return (
     <div className="relative h-dvh w-full overflow-hidden">
@@ -278,15 +279,24 @@ export default function RoadMap() {
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setShowIntro(true)}
-          aria-label="How it works"
-          className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-border bg-card/90 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur transition-colors hover:bg-muted"
-        >
-          <HelpCircle className="size-4" strokeWidth={2} />
-          <span className="hidden sm:inline">How it works</span>
-        </button>
+        <div className="pointer-events-auto flex items-center gap-2">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-1.5 rounded-full border border-border bg-card/90 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur transition-colors hover:bg-muted"
+          >
+            <BarChart3 className="size-4" strokeWidth={2} />
+            <span className="hidden sm:inline">Dashboard</span>
+          </Link>
+          <button
+            type="button"
+            onClick={() => setShowIntro(true)}
+            aria-label="How it works"
+            className="flex items-center gap-1.5 rounded-full border border-border bg-card/90 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur transition-colors hover:bg-muted"
+          >
+            <HelpCircle className="size-4" strokeWidth={2} />
+            <span className="hidden sm:inline">How it works</span>
+          </button>
+        </div>
       </header>
 
       <MapLegend />

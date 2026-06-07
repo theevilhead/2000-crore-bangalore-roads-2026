@@ -21,9 +21,5 @@ export async function POST(req: Request) {
   return NextResponse.json({ id: data }, { status: 201 });
 }
 
-export async function GET() {
-  const sb = supabaseServer();
-  const { data, error } = await sb.rpc("reports_geojson");
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data);
-}
+// No public GET: report data is server-rendered into the map and the dashboard
+// reads aggregates only. There is no bulk JSON endpoint to scrape.
