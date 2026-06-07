@@ -38,6 +38,9 @@ export default function RoadMap({ initialData }: { initialData: GeoJSON.FeatureC
   const [match, setMatch] = useState<NearbyMatch | null>(null);
   const [confirming, setConfirming] = useState(false);
   const [showIntro, setShowIntro] = useState(false);
+  const [navOpen, setNavOpen] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth >= 1024 : false
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined" && !localStorage.getItem("br_seen_intro")) {
@@ -275,11 +278,19 @@ export default function RoadMap({ initialData }: { initialData: GeoJSON.FeatureC
 
       {/* Nav panel */}
       <div className="pointer-events-none absolute left-0 top-0 z-30 p-3 sm:p-4">
-        <MapNav onHowItWorks={() => setShowIntro(true)} />
+        <MapNav
+          open={navOpen}
+          onToggle={() => setNavOpen((o) => !o)}
+          onHowItWorks={() => setShowIntro(true)}
+        />
       </div>
 
-      {/* Place search */}
-      <div className="pointer-events-none absolute inset-x-0 top-20 z-20 flex justify-center px-3 lg:top-4">
+      {/* Place search (hidden under the open menu on small screens) */}
+      <div
+        className={`pointer-events-none absolute inset-x-0 top-20 z-20 flex justify-center px-3 lg:top-4 ${
+          navOpen ? "max-lg:hidden" : ""
+        }`}
+      >
         <div className="pointer-events-auto w-full max-w-md">
           <SearchBar onSelect={onSearchSelect} />
         </div>

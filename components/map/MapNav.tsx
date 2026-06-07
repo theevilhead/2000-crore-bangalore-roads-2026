@@ -1,17 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { BarChart3, HelpCircle, Info, Shield, Menu, X } from "lucide-react";
 
 const item =
   "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm font-medium text-left transition-colors hover:bg-muted";
 
-export function MapNav({ onHowItWorks }: { onHowItWorks: () => void }) {
-  const [open, setOpen] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth >= 1024 : false
-  );
-
+export function MapNav({
+  open,
+  onToggle,
+  onHowItWorks,
+}: {
+  open: boolean;
+  onToggle: () => void;
+  onHowItWorks: () => void;
+}) {
   return (
     <div className="pointer-events-auto w-56 max-w-[72vw] overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm backdrop-blur">
       <div className="h-1 bg-primary" />
@@ -22,7 +25,7 @@ export function MapNav({ onHowItWorks }: { onHowItWorks: () => void }) {
         </div>
         <button
           type="button"
-          onClick={() => setOpen((o) => !o)}
+          onClick={onToggle}
           aria-label={open ? "Collapse menu" : "Open menu"}
           aria-expanded={open}
           className="shrink-0 rounded-md p-1.5 text-muted-foreground hover:bg-muted"
