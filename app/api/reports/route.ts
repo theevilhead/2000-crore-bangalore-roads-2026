@@ -1,9 +1,17 @@
 import { NextResponse } from "next/server";
 import { newReportSchema } from "@/lib/schema";
 import { supabaseServer } from "@/lib/supabase/server";
+import { verifyCaptcha } from "@/lib/turnstile";
 
 export async function POST(req: Request) {
   const json = await req.json().catch(() => null);
+
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const captchaOk = await verifyCaptcha(json?.captchaToken, ip);
+  if (!captchaOk) {
+    return NextResponse.json({ error: "Captcha verification failed" }, { status: 403 });
+  }
+
   const parsed = newReportSchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });

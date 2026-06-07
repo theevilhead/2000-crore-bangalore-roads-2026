@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { SeveritySelect } from "./SeveritySelect";
 import { DamageTypeChips } from "./DamageTypeChips";
 import { ConditionScale } from "./ConditionScale";
+import { Turnstile, captchaConfigured } from "./Turnstile";
 import { ShareCard } from "./ShareCard";
 import type { SnapResult } from "@/lib/geo/snap";
 import { SEVERITY_META, type DamageType, type Severity } from "@/lib/types";
@@ -38,6 +39,8 @@ export function ReportSheet({
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [createdId, setCreatedId] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaKey, setCaptchaKey] = useState(0);
 
   function reset() {
     setSeverity(null);
@@ -45,6 +48,8 @@ export function ReportSheet({
     setCondition(null);
     setNote("");
     setCreatedId(null);
+    setCaptchaToken(null);
+    setCaptchaKey((k) => k + 1);
   }
 
   async function submit() {
@@ -62,6 +67,7 @@ export function ReportSheet({
           condition: condition ?? undefined,
           note: note.trim() || undefined,
           sessionId: getSessionId(),
+          captchaToken: captchaToken ?? undefined,
         }),
       });
       if (!res.ok) throw new Error(`Submit failed (${res.status})`);
@@ -69,6 +75,9 @@ export function ReportSheet({
       setCreatedId(id);
       onSubmitted();
     } catch (e) {
+      // Turnstile tokens are single-use; reset the widget so the user can retry.
+      setCaptchaToken(null);
+      setCaptchaKey((k) => k + 1);
       toast.error(e instanceof Error ? e.message : "Could not submit report");
     } finally {
       setSubmitting(false);
@@ -153,10 +162,15 @@ export function ReportSheet({
               </div>
             </div>
 
-            <SheetFooter>
+            <SheetFooter className="gap-3">
+              {captchaConfigured && (
+                <div className="flex justify-center">
+                  <Turnstile key={captchaKey} onToken={setCaptchaToken} />
+                </div>
+              )}
               <Button
                 size="lg"
-                disabled={!severity || submitting}
+                disabled={!severity || submitting || (captchaConfigured && !captchaToken)}
                 onClick={submit}
                 className="h-12 w-full rounded-full text-[0.95rem] font-semibold"
               >
