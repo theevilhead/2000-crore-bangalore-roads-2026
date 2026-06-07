@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { getReportFeature } from "@/lib/reports";
-import { SEVERITY_META, DAMAGE_TYPE_LABELS } from "@/lib/types";
+import { SEVERITY_META, DAMAGE_TYPE_LABELS, CONDITION_MAX } from "@/lib/types";
 import { formatLength } from "@/lib/format";
 import { staticMapUrl } from "@/lib/geo/staticMap";
 
@@ -78,6 +78,15 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
               </span>
             ))}
           </div>
+        )}
+        {report.condition != null && (
+          <p className="text-sm text-muted-foreground">
+            Condition:{" "}
+            <span className="font-semibold text-foreground tabular-nums">
+              {report.condition}/{CONDITION_MAX}
+            </span>{" "}
+            vs Cubbon Park&apos;s roads (10 = smooth)
+          </p>
         )}
       </div>
 

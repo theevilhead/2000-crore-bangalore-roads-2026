@@ -11,6 +11,7 @@ export const newReportSchema = z.object({
   lengthM: z.number().positive().max(200_000),
   severity: z.union([z.literal(1), z.literal(2), z.literal(3)]),
   damageTypes: z.array(z.enum(DAMAGE_TYPES)).default([]),
+  condition: z.number().int().min(1).max(10).optional(),
   note: z.string().max(500).optional(),
   sessionId: z.string().min(1),
 });

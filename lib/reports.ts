@@ -8,6 +8,7 @@ export interface ReportFeature {
   severity: Severity;
   lengthM: number;
   damageTypes: DamageType[];
+  condition: number | null;
   corroborations: number;
   createdAt: string;
 }

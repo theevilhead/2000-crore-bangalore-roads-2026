@@ -16,6 +16,7 @@ export async function POST(req: Request) {
     p_damage_types: r.damageTypes,
     p_note: r.note ?? null,
     p_session_id: r.sessionId,
+    p_condition: r.condition ?? null,
   });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ id: data }, { status: 201 });

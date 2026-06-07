@@ -12,6 +12,7 @@ export const DAMAGE_TYPES = [
   "flooding",
   "utility_dig",
   "under_construction",
+  "open_manhole",
 ] as const;
 export type DamageType = (typeof DAMAGE_TYPES)[number];
 
@@ -21,13 +22,22 @@ export const DAMAGE_TYPE_LABELS: Record<DamageType, string> = {
   flooding: "Waterlogging / flooding",
   utility_dig: "Dug up (utility work)",
   under_construction: "Under construction",
+  open_manhole: "Open manhole / missing cover",
 };
+
+// Optional 1-10 condition vs the well-kept roads around Cubbon Park.
+// Higher = better: 10 is "smooth, like Cubbon Park", 1 is the worst you have seen.
+export const CONDITION_MIN = 1;
+export const CONDITION_MAX = 10;
+export const CONDITION_ANCHOR_LOW = "Worst";
+export const CONDITION_ANCHOR_HIGH = "Smooth, like Cubbon Park";
 
 export interface NewReport {
   geometry: GeoJSON.LineString; // snapped, WGS84
   lengthM: number;
   severity: Severity;
   damageTypes: DamageType[];
+  condition?: number; // 1-10, optional; 10 = smooth like Cubbon Park
   note?: string;
   sessionId: string;
 }

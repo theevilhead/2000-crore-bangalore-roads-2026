@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { SeveritySelect } from "./SeveritySelect";
 import { DamageTypeChips } from "./DamageTypeChips";
+import { ConditionScale } from "./ConditionScale";
 import { ShareCard } from "./ShareCard";
 import type { SnapResult } from "@/lib/geo/snap";
 import { SEVERITY_META, type DamageType, type Severity } from "@/lib/types";
@@ -33,6 +34,7 @@ export function ReportSheet({
 }) {
   const [severity, setSeverity] = useState<Severity | null>(null);
   const [damageTypes, setDamageTypes] = useState<DamageType[]>([]);
+  const [condition, setCondition] = useState<number | null>(null);
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [createdId, setCreatedId] = useState<string | null>(null);
@@ -40,6 +42,7 @@ export function ReportSheet({
   function reset() {
     setSeverity(null);
     setDamageTypes([]);
+    setCondition(null);
     setNote("");
     setCreatedId(null);
   }
@@ -56,6 +59,7 @@ export function ReportSheet({
           lengthM: snapped.lengthM,
           severity,
           damageTypes,
+          condition: condition ?? undefined,
           note: note.trim() || undefined,
           sessionId: getSessionId(),
         }),
@@ -123,6 +127,14 @@ export function ReportSheet({
                   What&apos;s wrong? <span className="font-normal normal-case tracking-normal">- optional</span>
                 </label>
                 <DamageTypeChips value={damageTypes} onChange={setDamageTypes} />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="label-caps text-muted-foreground">
+                  Condition vs Cubbon Park{" "}
+                  <span className="font-normal normal-case tracking-normal">- optional</span>
+                </label>
+                <ConditionScale value={condition} onChange={setCondition} />
               </div>
 
               <div className="flex flex-col gap-2">
