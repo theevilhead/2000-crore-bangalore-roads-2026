@@ -4,12 +4,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { toast } from "sonner";
-import Link from "next/link";
-import { Plus, HelpCircle, BarChart3 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ReportSheet } from "@/components/report/ReportSheet";
 import { CorroboratePrompt, type NearbyMatch } from "@/components/report/CorroboratePrompt";
 import { MapLegend } from "@/components/map/MapLegend";
+import { MapNav } from "@/components/map/MapNav";
 import { SearchBar } from "@/components/map/SearchBar";
 import { HowItWorks } from "@/components/onboarding/HowItWorks";
 import { snapWaypoints, type SnapResult } from "@/lib/geo/snap";
@@ -273,39 +273,10 @@ export default function RoadMap({ initialData }: { initialData: GeoJSON.FeatureC
     <div className="relative h-dvh w-full overflow-hidden">
       <div ref={containerRef} className="h-full w-full" />
 
-      {/* Masthead */}
-      <header className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-3 p-3 sm:p-4">
-        <div className="pointer-events-auto inline-block overflow-hidden rounded-xl border border-border bg-card/90 shadow-sm backdrop-blur">
-          <div className="h-1.5 bg-primary" />
-          <div className="px-4 py-2.5">
-            <h1 className="font-display text-base font-extrabold leading-none tracking-tight sm:text-lg">
-              Fix Bengaluru Roads
-            </h1>
-            <p className="label-caps mt-1.5 text-muted-foreground">
-              Citizen road map for Bengaluru
-            </p>
-          </div>
-        </div>
-
-        <div className="pointer-events-auto flex items-center gap-2">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-1.5 rounded-full border border-border bg-card/90 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur transition-colors hover:bg-muted"
-          >
-            <BarChart3 className="size-4" strokeWidth={2} />
-            <span className="hidden sm:inline">Dashboard</span>
-          </Link>
-          <button
-            type="button"
-            onClick={() => setShowIntro(true)}
-            aria-label="How it works"
-            className="flex items-center gap-1.5 rounded-full border border-border bg-card/90 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur transition-colors hover:bg-muted"
-          >
-            <HelpCircle className="size-4" strokeWidth={2} />
-            <span className="hidden sm:inline">How it works</span>
-          </button>
-        </div>
-      </header>
+      {/* Nav panel */}
+      <div className="pointer-events-none absolute left-0 top-0 z-30 p-3 sm:p-4">
+        <MapNav onHowItWorks={() => setShowIntro(true)} />
+      </div>
 
       {/* Place search */}
       <div className="pointer-events-none absolute inset-x-0 top-20 z-20 flex justify-center px-3 lg:top-4">
