@@ -7,10 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-bricolage);
-  --font-heading: var(--font-bricolage);
+  --font-sans: var(--font-sans-base);
+  --font-mono: var(--font-mono-base);
+  --font-display: var(--font-sans-base);
+  --font-heading: var(--font-sans-base);
   --color-sev-1: var(--sev-1);
   --color-sev-2: var(--sev-2);
   --color-sev-3: var(--sev-3);
@@ -139,8 +139,8 @@
     @apply font-sans;
   }
   h1, h2, h3 {
-    font-family: var(--font-bricolage), ui-sans-serif, sans-serif;
-    letter-spacing: -0.02em;
+    font-family: var(--font-sans-base), ui-sans-serif, sans-serif;
+    letter-spacing: -0.01em;
   }
 }
 
