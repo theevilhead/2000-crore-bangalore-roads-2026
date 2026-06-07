@@ -7,14 +7,12 @@ import { SEVERITY_META, type Severity } from "@/lib/types";
 const ORDER: Severity[] = [3, 2, 1];
 
 export function MapLegend() {
-  const [open, setOpen] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth >= 640 : true
-  );
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="absolute bottom-28 left-3 z-10 sm:bottom-6 sm:left-4">
+    <div className="absolute bottom-5 left-4 z-10">
       {open ? (
-        <div className="rounded-xl border border-border bg-card/90 px-3.5 py-3 shadow-sm backdrop-blur">
+        <div className="rounded-xl border border-border bg-card/90 px-3.5 py-3 shadow-md backdrop-blur">
           <div className="flex items-center justify-between gap-6">
             <p className="label-caps text-muted-foreground">Severity</p>
             <button
@@ -44,14 +42,17 @@ export function MapLegend() {
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Show severity legend"
-          className="flex items-center gap-2 rounded-full border border-border bg-card/90 px-3 py-2 shadow-sm backdrop-blur"
+          className="flex size-11 items-center justify-center rounded-full border border-border bg-card/90 shadow-md backdrop-blur"
         >
-          <span className="flex gap-0.5">
-            {([1, 2, 3] as Severity[]).map((s) => (
-              <span key={s} className="size-2 rounded-full" style={{ backgroundColor: SEVERITY_META[s].color }} />
+          <span className="flex flex-col items-center gap-[3px]">
+            {ORDER.map((s) => (
+              <span
+                key={s}
+                className="h-[3px] w-5 rounded-full"
+                style={{ backgroundColor: SEVERITY_META[s].color }}
+              />
             ))}
           </span>
-          <span className="text-xs font-medium">Legend</span>
         </button>
       )}
     </div>

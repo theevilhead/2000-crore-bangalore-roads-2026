@@ -13,6 +13,10 @@ export const DAMAGE_TYPES = [
   "utility_dig",
   "under_construction",
   "open_manhole",
+  "broken_gutter",
+  "overflowing_drain",
+  "needs_cleaning",
+  "garbage",
 ] as const;
 export type DamageType = (typeof DAMAGE_TYPES)[number];
 
@@ -23,6 +27,10 @@ export const DAMAGE_TYPE_LABELS: Record<DamageType, string> = {
   utility_dig: "Dug up (utility work)",
   under_construction: "Under construction",
   open_manhole: "Open manhole / missing cover",
+  broken_gutter: "Broken / non-functional gutter",
+  overflowing_drain: "Overflowing drain",
+  needs_cleaning: "Needs cleaning",
+  garbage: "Garbage on road",
 };
 
 // Optional 1-10 condition vs the well-kept roads around Cubbon Park.
