@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { Route, Gauge, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -74,7 +75,10 @@ export function HowItWorks({ open, onClose }: { open: boolean; onClose: () => vo
             Start mapping
           </Button>
           <p className="text-center text-xs text-muted-foreground">
-            No login. Non-partisan. Your reports help the relaying reach the worst roads.
+            No login. Non-partisan.{" "}
+            <Link href="/privacy" className="font-medium underline underline-offset-2 hover:text-foreground">
+              What we store
+            </Link>
           </p>
         </div>
       </div>

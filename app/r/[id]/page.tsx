@@ -105,6 +105,12 @@ export default async function ReportPage({ params }: { params: Promise<{ id: str
           A citizen project to help Bengaluru&apos;s road relaying reach the worst stretches.
           Non-partisan, no logins.
         </p>
+        <Link
+          href="/privacy"
+          className="mt-2 inline-block text-xs font-medium text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
+        >
+          Your data &amp; privacy
+        </Link>
       </div>
     </main>
   );
