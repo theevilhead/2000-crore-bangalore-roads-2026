@@ -147,6 +147,9 @@ export function ReportSheet({
                   maxLength={500}
                   placeholder="e.g. landmark, how long it's been like this"
                 />
+                <p className="text-[0.7rem] leading-snug text-muted-foreground">
+                  Reports are public. Please skip names, phone numbers, or vehicle numbers.
+                </p>
               </div>
             </div>
 

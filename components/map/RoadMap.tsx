@@ -189,6 +189,9 @@ export default function RoadMap({ initialData }: { initialData: GeoJSON.FeatureC
       }),
       "bottom-right"
     );
+    containerRef.current
+      .querySelector(".mapboxgl-ctrl-geolocate")
+      ?.setAttribute("title", "Center the map on you. Your location stays on your device.");
     mapRef.current = map;
 
     map.on("load", () => {
